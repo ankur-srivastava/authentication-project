@@ -12,7 +12,7 @@ const AuthForm = () => {
   const passwordInputRef = useRef()
 
   const SIGNUP_API = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='
-  const API_KEY = 'AIzaSyCF7DX6ksPny95P_8Xp2an5_GUdgHcXHwI'
+  const API_KEY = ''
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);

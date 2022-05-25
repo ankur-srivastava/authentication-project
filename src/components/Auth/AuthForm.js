@@ -12,6 +12,7 @@ const AuthForm = () => {
   const passwordInputRef = useRef()
 
   const SIGNUP_API = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='
+  const LOGIN_API = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='
   const API_KEY = ''
 
   const switchAuthModeHandler = () => {
@@ -27,36 +28,41 @@ const AuthForm = () => {
 
     // validate
     // submit
+    let url = ''
     if(isLogin) {
-
+      url = `${LOGIN_API}${API_KEY}`
     } else {
-      fetch(`${SIGNUP_API}${API_KEY}`, {
-        method: 'POST',
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(res => {
-        setIsLoading(false)
-        if(res.ok) {
-          // ..
-          console.log('Success')
-        } else {
-          return res.json().then(data => {
-            // Firebase returns an object with error key
-            let errorMessage = 'Authentication Failed'
-            if(data && data.error && data.error.message) {
-              errorMessage = data.error.message
-            }            
-            console.log(errorMessage)
-          })
-        }
-      })
+      url = `${SIGNUP_API}${API_KEY}`
     }
+    // Send Request
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+      setIsLoading(false)
+      if(res.ok) {
+        return res.json()
+      } else {
+        return res.json().then(data => {
+          // Firebase returns an object with error key
+          let errorMessage = 'Authentication Failed'
+          if(data && data.error && data.error.message) {
+            errorMessage = data.error.message
+          }            
+          throw new Error(errorMessage)
+        })
+      }
+    }).then(data => {}).catch(e => {
+      alert(e.message)
+    })
+    // Ends
   }
 
   return (

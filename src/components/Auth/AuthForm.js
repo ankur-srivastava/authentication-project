@@ -1,4 +1,5 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
+import AuthContext from '../../store/auth-context';
 
 import classes from './AuthForm.module.css';
 
@@ -10,6 +11,8 @@ const AuthForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const emailInputRef = useRef()
   const passwordInputRef = useRef()
+
+  const authCtx = useContext(AuthContext)
 
   const SIGNUP_API = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='
   const LOGIN_API = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='
@@ -59,7 +62,9 @@ const AuthForm = () => {
           throw new Error(errorMessage)
         })
       }
-    }).then(data => {}).catch(e => {
+    }).then(data => {
+      authCtx.login(data.idToken)
+    }).catch(e => {
       alert(e.message)
     })
     // Ends

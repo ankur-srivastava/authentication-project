@@ -1,4 +1,5 @@
 import { useState, useRef, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import AuthContext from '../../store/auth-context';
 
 import classes from './AuthForm.module.css';
@@ -6,17 +7,19 @@ import classes from './AuthForm.module.css';
 // APIs https://firebase.google.com/docs/reference/rest/auth
 // https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
 
+export const API_KEY = ''
+
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false)
   const emailInputRef = useRef()
   const passwordInputRef = useRef()
+  const history = useHistory()
 
   const authCtx = useContext(AuthContext)
 
   const SIGNUP_API = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='
   const LOGIN_API = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='
-  const API_KEY = ''
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -64,6 +67,7 @@ const AuthForm = () => {
       }
     }).then(data => {
       authCtx.login(data.idToken)
+      history.replace('/')
     }).catch(e => {
       alert(e.message)
     })

@@ -66,7 +66,10 @@ const AuthForm = () => {
         })
       }
     }).then(data => {
-      authCtx.login(data.idToken)
+      const expiresInMs = +data.expiresIn*1000
+      // authCtx.login(data.idToken, expiresInMs)
+      // for testing
+      authCtx.login(data.idToken, 60000)
       history.replace('/')
     }).catch(e => {
       alert(e.message)

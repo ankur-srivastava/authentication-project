@@ -7,7 +7,7 @@ import classes from './AuthForm.module.css';
 // APIs https://firebase.google.com/docs/reference/rest/auth
 // https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
 
-export const API_KEY = ''
+export const API_KEY = 'AIzaSyCF7DX6ksPny95P_8Xp2an5_GUdgHcXHwI'
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);

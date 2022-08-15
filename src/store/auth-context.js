@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react'
 
 let logoutTimer
 
+// Course Source Code
+// https://github.com/academind/react-complete-guide-code/blob/22-authentication/code/09-finished/src/store/auth-context.js
+
 const AuthContext = React.createContext({
     token: '',
     isLoggedIn: false,
